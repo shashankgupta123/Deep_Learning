@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mnist-full-app
+  labels:
+    app: mnist-full
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mnist-full
+  template:
+    metadata:
+      labels:
+        app: mnist-full
+    spec:
+      containers:
+        - name: mnist-full-container
+          image: mnist-full-app:v1
+          imagePullPolicy: Never
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+          ports:
+            - name: flask
+              containerPort: 5000
+            - name: streamlit
+              containerPort: 8501
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 5000
+            initialDelaySeconds: 40
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 6
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 5000
+            initialDelaySeconds: 60
+            periodSeconds: 20
+            timeoutSeconds: 5
+            failureThreshold: 3

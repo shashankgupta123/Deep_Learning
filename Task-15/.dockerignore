@@ -1,0 +1,16 @@
+venv/
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.git/
+.vscode/
+.idea/
+test_images/
+training_history.png
+training_metrics.json
+train_model.py
+export_test_images.py
+*.docx
+*.pdf

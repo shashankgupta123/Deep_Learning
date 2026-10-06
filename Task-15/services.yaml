@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: cifar10-flask-service
+spec:
+  selector:
+    app: cifar10-classifier
+  type: NodePort
+  ports:
+    - name: flask
+      port: 5000
+      targetPort: 5000
+      protocol: TCP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cifar10-ui-service
+spec:
+  selector:
+    app: cifar10-classifier
+  type: NodePort
+  ports:
+    - name: streamlit
+      port: 8501
+      targetPort: 8501
+      protocol: TCP

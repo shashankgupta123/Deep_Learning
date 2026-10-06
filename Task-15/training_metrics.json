@@ -1,0 +1,22 @@
+{
+    "model": "EfficientNetV2B0",
+    "dataset": "CIFAR-10",
+    "classes": [
+        "airplane",
+        "automobile",
+        "bird",
+        "cat",
+        "deer",
+        "dog",
+        "frog",
+        "horse",
+        "ship",
+        "truck"
+    ],
+    "training_samples": 45000,
+    "validation_samples": 5000,
+    "test_samples": 10000,
+    "test_loss": 0.23084868490695953,
+    "test_accuracy": 0.9186000227928162,
+    "test_accuracy_percent": 91.86
+}

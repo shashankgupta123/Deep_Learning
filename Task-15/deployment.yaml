@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cifar10-classifier
+  labels:
+    app: cifar10-classifier
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 1
+  selector:
+    matchLabels:
+      app: cifar10-classifier
+  template:
+    metadata:
+      labels:
+        app: cifar10-classifier
+    spec:
+      containers:
+        - name: cifar10-classifier
+          image: cifar10-classifier-app:v1
+          imagePullPolicy: Never
+          ports:
+            - name: flask
+              containerPort: 5000
+            - name: streamlit
+              containerPort: 8501
+          env:
+            - name: API_URL
+              value: "http://127.0.0.1:5000"
+            - name: MODEL_PATH
+              value: "cifar10_efficientnetv2.keras"
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 5000
+            initialDelaySeconds: 45
+            periodSeconds: 10
+            timeoutSeconds: 5
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 5000
+            initialDelaySeconds: 90
+            periodSeconds: 20
+            timeoutSeconds: 5
+          resources:
+            requests:
+              cpu: "250m"
+              memory: "768Mi"
+            limits:
+              cpu: "1000m"
+              memory: "2048Mi"
